@@ -4,3 +4,4 @@
 4. Coding Languages: JavaScript, HTML/CSS, Python;
    Frameworks/Systems: MVC, AngularJS, bootstrap, Visual Studio. 
 5. Еducation: bachelor degree.
+
