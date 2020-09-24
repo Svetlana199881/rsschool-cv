@@ -1,52 +1,94 @@
-let numbers = document.querySelectorAll('.number');
-let operations = document.querySelectorAll('.operator');
-let clearBtns = document.querySelectorAll('.clear-btn');
-let decimalB = document.getElementById('decimal');
-let resultBtn = document.getElementById('result');
+const numbers = document.querySelectorAll('.number');
+const operations = document.querySelectorAll('.operator');
+const clearBtns = document.querySelectorAll('.clear-btn');
+const decimalBtn = document.getElementById('decimal');
+const result = document.getElementById('result');
+const display = document.getElementById('display');
+let MemoryCurrentNumber = 0;
+let MemoryNewNumber = false;
+let MemoryPendingOperation = '';
 
-for (let i = 0; i < numbers.length; i++) {
-    let number = numbers [i];
-		number.addEventListener('click',  function (e) {
-			numberPress(e.target.textContent);
-		}); 
-};
-
-for (let i = 0; i < operations.length; i++) {
-    let operationBtn = operations [i];
-    operationBtn.addEventListener('click', function (e) {
-			console.log(e.target.textContent);
-			operation();
-		});
-};
-
-for (let i = 0; i < clearBtns.length; i++) {
-	let clearBtn = clearBtns [i];
-	clearBtn.addEventListener('click', function (e) {
-		clear(e.srcElement.id)
-	});
-};
-
-resultBtn.addEventListener('click', result);
-
-decimalB.addEventListener('click', decimal);
-
-function numberPress(number){
-    console.log('Клик по кнопке с номером ' + number + '!');
-};
-
-function operation(argument) {
-	console.log('Клик по кнопке с операцией!');
-};
-
-function clear(id) {
-	console.log('Клик по кнопке ' + id + '!');
-};
-
-function decimal(argument) {
-	console.log('Клик по кнопке с десятичной дробью!');
-};
-
-function result(argument) {
-	console.log('Клик по кнопке с результатом!');
+for (var i = 0; i < numbers.length; i++) {
+  var number = numbers[i];
+  number.addEventListener('click', function (e) {
+    numberPress(e.target.textContent);
+  });
 }
 
+for (var i = 0; i < operations.length; i++) {
+  var operationBtn = operations[i];
+  operationBtn.addEventListener('click', function (e) {
+    operationPress(e.target.textContent);
+  });
+}
+
+for (var i = 0; i < clearBtns.length; i++) {
+  var clearBtn = clearBtns[i];
+  clearBtn.addEventListener('click', function (e) {
+    clear(e.target.textContent);
+  });
+}
+
+decimalBtn.addEventListener('click', decimal);
+
+function numberPress(number) {
+  if (MemoryNewNumber) {
+    display.value = number;
+    MemoryNewNumber = false;
+  } else {
+    if (display.value === '0') {
+      display.value = number;
+    } else {
+      display.value += number;
+    }
+  }
+}
+
+function operationPress(op) {
+  let localOperationMemory = display.value;
+
+  if (MemoryNewNumber && MemoryPendingOperation !== '=') {
+    display.value = MemoryCurrentNumber;
+  } else {
+    MemoryNewNumber = true;
+    if (MemoryPendingOperation === '+') {
+      MemoryCurrentNumber += +localOperationMemory;
+    } else if (MemoryPendingOperation === '-') {
+      MemoryCurrentNumber -= +localOperationMemory;
+    } else if (MemoryPendingOperation === '*') {
+      MemoryCurrentNumber *= +localOperationMemory;
+    } else if (MemoryPendingOperation === '/') {
+      MemoryCurrentNumber /= +localOperationMemory;
+    } else {
+      MemoryCurrentNumber = +localOperationMemory;
+    }
+    display.value = MemoryCurrentNumber;
+    MemoryPendingOperation = op;
+  }
+}
+
+function decimal(argument) {
+  let localDecimalMemory = display.value;
+
+  if (MemoryNewNumber) {
+    localDecimalMemory = '0.';
+    MemoryNewNumber = false;
+  } else {
+    if (localDecimalMemory.indexOf('.') === -1) {
+      localDecimalMemory += '.';
+    }
+  }
+  display.value = localDecimalMemory;
+}
+
+function clear(id) {
+  if (id === 'ce') {
+    display.value = '0';
+    MemoryNewNumber = true;
+  } else if (id === 'c') {
+    display.value = '0';
+    MemoryNewNumber = true;
+    MemoryCurrentNumber = 0;
+    MemoryPendingOperation = '';
+  }
+}
