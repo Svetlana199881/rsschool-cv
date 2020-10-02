@@ -1,0 +1,54 @@
+.header {
+  background-color: black;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+    /* приклеивает хедер к верху */
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo_title {
+  color: #f1cdb3;
+  font-family: Georgia;
+  font-size: 32px;
+  letter-spacing: 6%;
+  line-height: 110%;
+}
+
+.logo_subtitle {
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 10%;
+  line-height: 110%;
+}
+
+.menu {
+  display: flex;
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.list_item {
+
+}
+
+.list_link {
+  text-decoration: none;
+  color: #fff;
+}
